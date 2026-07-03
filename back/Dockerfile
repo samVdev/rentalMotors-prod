@@ -1,0 +1,54 @@
+FROM php:8.2.4-fpm
+
+ENV TZ=America/Caracas
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libpng-dev \
+    libonig-dev \
+    libzip-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl \
+    net-tools \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install mbstring zip exif pcntl \
+    && docker-php-ext-install pdo pgsql pdo_pgsql \
+    && docker-php-ext-install gd
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . /var/www/html
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+
+WORKDIR /var/www/html
+
+RUN chown -R www-data:www-data \
+    /var/www/html/storage \
+    /var/www/html/bootstrap/cache
+
+    RUN composer install -vvv \
+    #&& php artisan key:generate \
+    && composer dump-autoload \
+    && php artisan cache:clear \
+    && php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan config:cache \
+    && chmod -R 775 /var/www/html/storage \
+    && php artisan optimize \
+    && php artisan storage:link
+
+USER www-data
+
+EXPOSE 9000
+
+CMD php artisan schedule:work & php-fpm

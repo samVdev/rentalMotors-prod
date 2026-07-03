@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  php_financiacion:
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
+    container_name: php_financiacion
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - financiacion-network
+  nginx_financiacion:
+    depends_on:
+      - php_financiacion
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: financiacion_nginx
+    restart: unless-stopped
+    volumes:
+      - "./public:/var/www/html/public:ro"
+      - "./storage/app:/var/www/html/storage/app:ro"
+    tty: true
+    ports:
+      - "80:80"
+    networks:
+      - financiacion-network      
+networks:
+  financiacion-network:
+    driver: bridge

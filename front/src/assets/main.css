@@ -1,0 +1,23 @@
+@import './css/animations.css';
+@import './css/animationsClass.css';
+@import './css/tables.css';
+
+
+input[type='text']:not(.swal2-input),
+input[type='email']:not(.swal2-input),
+input[type='password']:not(.swal2-input),
+input[type='number']:not(.swal2-input),
+input[type='tel']:not(.swal2-input),
+input[type='url']:not(.swal2-input),
+input[type='date']:not(.swal2-input),
+input[type='color']:not(.swal2-input),
+input[type='file']:not(.swal2-input),
+input[type='range']:not(.swal2-input),
+input[type='search']:not(.swal2-input) {
+  @apply flex h-10 w-full rounded-md border px-3 py-2 text-base file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm transition-all;
+}
+
+
+* {
+  scroll-behavior: smooth;
+}

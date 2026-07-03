@@ -104,7 +104,7 @@ class Financing extends Model
     /**
      * Get the due date for the N-th installment based on the plan and start_date.
      */
-    public function getNthDueDate(int $n): \Carbon\Carbon
+    public function getNextCalendarDueDate(int $n): \Carbon\Carbon
     {
         $dueDate = \Carbon\Carbon::parse($this->start_date);
 
@@ -236,42 +236,6 @@ class Financing extends Model
 
         return $now->copy()->startOfDay();
     }
-
-    /**
-     * Get the current installment price based on the plan.
-     */
-    public function getCurrentInstallmentPrice(): float
-    {
-        return match ($this->plan) {
-            'Diario' => (float) $this->price_diario,
-            'Semanal' => (float) $this->price_semanal,
-            'Quincenal' => (float) $this->price_quincenal,
-            'Mensual' => (float) $this->price_mensual,
-            default => (float) $this->price_mensual,
-        };
-    }
-
-    /**
-     * Get the remaining balance of the financing.
-     */
-    public function getRemainingBalance(): float
-    {
-        $totalPagado = $this->payments()
-            ->where('status', 'approved')
-            ->where('installment_number', '>', 0)
-            ->sum('total');
-
-        return round(($this->final_price ?? 0) - $totalPagado, 2);
-    }
-
-    /**
-     * Check if the financing has a pending balance.
-     */
-    public function hasPendingBalance(): bool
-    {
-        return $this->getRemainingBalance() > 0;
-    }
-
     /**
      * Get the price for a specific installment number, handling pro-rata for the first one.
      */

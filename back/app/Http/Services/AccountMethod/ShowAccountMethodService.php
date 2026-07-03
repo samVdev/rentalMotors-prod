@@ -8,10 +8,5 @@ use App\Models\AccountMethod;
 class ShowAccountMethodService
 {
     public static function execute(AccountMethod $accountMethod): JsonResponse
-    {
-        return response()->json([
-            "success" => true,
-            "data" => $accountMethod
-        ]);
-    }
+    {}
 }

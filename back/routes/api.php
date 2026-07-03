@@ -110,7 +110,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::prefix('apply')->group(function () {
             Route::get('/', [ApplyController::class, 'index']);
-            Route::post('/doc/{id}', [ApplyController::class, 'attach']);
             Route::put('/action/{id}', [ApplyController::class, 'action']);
             Route::get('/invoice/{id}', [ApplyController::class, 'invoice']);
             Route::post('/requirements/{id}', [ApplyController::class, 'updateRequirements']);
@@ -123,7 +122,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::prefix('maintenance')->group(function () {
-            Route::get('/', [MaintenanceController::class, 'index']);
             Route::get('/{id}', [MaintenanceController::class, 'show']);
             Route::get('/check-type/{id}/{cedula}', [MaintenanceController::class, 'getFinancingsOrApplys']);
             Route::put('/edit/{id}', [MaintenanceController::class, 'update']);
@@ -152,7 +150,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::prefix('cobros')->group(function () {
             Route::get('/summary', [CobrosController::class, 'summary']);
             Route::get('/pending', [CobrosController::class, 'pending']);
-            Route::get('/completed', [CobrosController::class, 'completed']);
             Route::post('/notify-whatsapp', [CobrosController::class, 'notifyWhatsApp']);
             Route::post('/gps/{id}', [CobrosController::class, 'toggleGPS']);
             Route::post('/moto/{id}', [CobrosController::class, 'toggleMoto']);
@@ -163,7 +160,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::delete('users/{uuid}', [UserController::class, 'destroy']);
             Route::delete('clients/{uuid}', [ClientController::class, 'destroy']);
             Route::delete('roles/{id}', [RoleController::class, 'destroy']);
-            Route::delete('vehicles/{id}', [VehicleController::class, 'destroy']);
             Route::delete('financing/{id}', [FinancingController::class, 'destroy']);
             Route::delete('lotes/{id}', [LotesController::class, 'destroy']);
             Route::delete('maintenance/{id}', [MaintenanceController::class, 'destroy']);

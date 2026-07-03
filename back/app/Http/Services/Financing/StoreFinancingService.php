@@ -30,8 +30,6 @@ class StoreFinancingService
                 }
             }
 
-            $final_price = $interes_price + $financing_price + $total_services;
-
             $mesesContrato = $request->meses;
             $startDate = Carbon::now();
             $endDate = $startDate->copy()->addMonths($mesesContrato);

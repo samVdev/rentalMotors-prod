@@ -12,7 +12,6 @@ class StatusPaymentsService
 {
     public static function updateStatus(int $id, bool $value): array
     {
-        DB::beginTransaction();
         $user = auth()->user();
         $lotesIds = $user->lotes->pluck('id')->toArray();
 
@@ -30,7 +29,6 @@ class StatusPaymentsService
                     }
                 }
 
-                $financing = Financing::find($payment->financing_id);
 
                 if ($financing) {
                     if ($financing->lote_id && !in_array($financing->lote_id, $lotesIds)) {

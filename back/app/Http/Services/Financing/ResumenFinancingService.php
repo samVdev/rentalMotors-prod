@@ -15,7 +15,6 @@ class ResumenFinancingService
             $user = auth()->user();
             $lotesIds = $user->lotes->pluck('id')->toArray();
 
-            $financingTotal = Financing::where('status', '!=', 'pending')->whereIn('lote_id', $lotesIds)->sum('final_price');
             $financingPrice = Financing::where('status', '!=', 'pending')->whereIn('lote_id', $lotesIds)->sum('financing_price');
 
             $totalPayments = Payment::where('status', 'approved')

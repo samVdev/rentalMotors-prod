@@ -14,8 +14,6 @@ class getFinancingService
                 ->select(
                     'id',
                     'plan',
-                    'installments',
-                    'observation',
                     'lote_id',
                     'plate'
                 )->where('id', $id)->first();

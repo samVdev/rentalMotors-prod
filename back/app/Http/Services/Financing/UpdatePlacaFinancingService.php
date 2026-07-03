@@ -15,8 +15,6 @@ class UpdatePlacaFinancingService
                 'plate' => 'required|string|max:50',
             ]);
 
-            $financing = Financing::findOrFail($id);
-
             if ($financing && $financing->status != 'active') {
                 return response()->json([
                     'message' => 'La placa no se puede actualizar porque el financiamiento no está activo',
